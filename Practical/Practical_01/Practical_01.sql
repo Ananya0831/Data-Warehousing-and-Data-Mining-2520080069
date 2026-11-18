@@ -79,3 +79,119 @@ SELECT
 FROM Orders;
 
 
+
+SELECT
+    c.customer_name,
+    SUM(o.total_amount) AS Total_Purchase
+FROM Customers c
+JOIN Orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.customer_name;
+
+
+SELECT
+    c.city,
+    SUM(o.total_amount) AS City_Sales
+FROM Customers c
+JOIN Orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.city
+ORDER BY City_Sales DESC;
+
+
+SELECT
+    COUNT(order_id) AS Total_Orders
+FROM Orders;
+
+
+SELECT
+    SUM(total_amount) AS Total_Revenue
+FROM Orders;
+
+
+SELECT
+    c.customer_name,
+    SUM(o.total_amount) AS Total_Purchase
+FROM Customers c
+JOIN Orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.customer_name
+ORDER BY Total_Purchase DESC;
+
+
+SELECT
+    c.city,
+    SUM(o.total_amount) AS City_Sales
+FROM Customers c
+JOIN Orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.city
+ORDER BY City_Sales DESC;
+
+
+SELECT
+    EXTRACT(MONTH FROM order_date) AS Sales_Month,
+    SUM(total_amount) AS Monthly_Revenue
+FROM Orders
+GROUP BY EXTRACT(MONTH FROM order_date)
+ORDER BY Sales_Month;
+
+
+CREATE TABLE OrderDetails (
+    detail_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES Orders(order_id),
+    product_id INT REFERENCES Products(product_id),
+    quantity INT,
+    subtotal DECIMAL(10,2)
+);
+
+
+INSERT INTO OrderDetails
+(order_id, product_id, quantity, subtotal)
+VALUES
+(1, 1, 1, 55000),
+(1, 3, 1, 2000),
+(2, 2, 1, 20000),
+(3, 2, 1, 20000),
+(3, 4, 1, 1500),
+(4, 5, 1, 12000),
+(5, 1, 1, 55000),
+(6, 3, 1, 2000),
+(6, 4, 1, 1500);
+
+
+SELECT
+    p.product_name,
+    SUM(od.quantity) AS Total_Quantity,
+    SUM(od.subtotal) AS Total_Sales
+FROM Products p
+JOIN OrderDetails od
+ON p.product_id = od.product_id
+GROUP BY p.product_name
+ORDER BY Total_Quantity DESC;
+
+
+SELECT
+    p.product_name,
+    SUM(od.quantity) AS Total_Quantity,
+    SUM(od.subtotal) AS Total_Sales
+FROM Products p
+JOIN OrderDetails od
+ON p.product_id = od.product_id
+GROUP BY p.product_name
+ORDER BY Total_Quantity DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
